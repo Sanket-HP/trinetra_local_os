@@ -16,5 +16,11 @@ def answer(query):
     elif "time" in query:
         return datetime.now().strftime("%H:%M:%S")
 
+    elif "date" in query:
+        return datetime.now().strftime("%d-%m-%Y")
+
+    elif "bye" in query:
+        return "Goodbye Sanket."
+
     else:
         return "I don't understand yet."
