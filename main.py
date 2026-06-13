@@ -37,6 +37,8 @@ class TrinetraApp(App):
 
         send_btn = Button(text="Send")
         clear_btn = Button(text="Clear Chat")
+        voice_btn = Button(text="🎤 Voice")
+        speak_btn = Button(text="🔊 Speak")
 
         send_btn.bind(on_press=self.send_message)
         clear_btn.bind(on_press=self.clear_chat)

@@ -24,3 +24,12 @@ def answer(query):
 
     else:
         return "I don't understand yet."
+
+elif "weather" in query:
+    return "Weather service not connected yet."
+
+elif "open settings" in query:
+    return "Settings module coming soon."
+
+elif "help" in query:
+    return "Available commands: hello, time, date, developer, who are you."
