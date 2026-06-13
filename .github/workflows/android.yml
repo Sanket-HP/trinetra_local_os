@@ -9,11 +9,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    container:
+      image: ghcr.io/kivy/buildozer:latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show Files
+      - name: Build APK
         run: |
-          pwd
-          ls -la
-          find .
+          buildozer android debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: trinetra-apk
+          path: bin/*.apk
+
