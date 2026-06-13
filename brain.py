@@ -1,10 +1,25 @@
 from datetime import datetime
+from modules.notes import save_note, read_notes, clear_notes
+from modules.calculator import calculate
 
 def answer(query):
-
     query = query.lower()
 
-    if "hello" in query:
+    if query.startswith("save note "):
+        note = query.replace("save note ", "")
+        return save_note(note)
+
+    elif query == "show notes":
+        return read_notes()
+
+    elif query == "clear notes":
+        return clear_notes()
+
+    elif query.startswith("calc "):
+        expression = query.replace("calc ", "")
+        return calculate(expression)
+
+    elif "hello" in query:
         return "Hello Sanket, I am Trinetra."
 
     elif "who are you" in query:
@@ -24,12 +39,3 @@ def answer(query):
 
     else:
         return "I don't understand yet."
-
-elif "weather" in query:
-    return "Weather service not connected yet."
-
-elif "open settings" in query:
-    return "Settings module coming soon."
-
-elif "help" in query:
-    return "Available commands: hello, time, date, developer, who are you."
