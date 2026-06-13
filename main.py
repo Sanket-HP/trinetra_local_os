@@ -3,60 +3,68 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.scrollview import ScrollView
+
+from brain import answer
+
 
 class TrinetraApp(App):
 
     def build(self):
 
-        self.layout = BoxLayout(
-            orientation='vertical',
-            padding=20,
+        root = BoxLayout(
+            orientation="vertical",
+            padding=10,
             spacing=10
         )
 
-        self.output = Label(
-            text="Welcome to Trinetra Assistant"
+        self.chat = Label(
+            text="Welcome to Trinetra Assistant\n",
+            size_hint_y=None,
+            halign="left",
+            valign="top"
         )
 
+        self.chat.bind(
+            texture_size=self.chat.setter("size")
+        )
+
+        scroll = ScrollView()
+        scroll.add_widget(self.chat)
+
         self.input_box = TextInput(
-            hint_text="Type your message"
+            hint_text="Type a message...",
+            size_hint_y=None,
+            height=100
         )
 
         send_btn = Button(
-            text="Send"
+            text="Send",
+            size_hint_y=None,
+            height=80
         )
 
-        send_btn.bind(on_press=self.process_message)
+        send_btn.bind(on_press=self.send_message)
 
-        self.layout.add_widget(self.output)
-        self.layout.add_widget(self.input_box)
-        self.layout.add_widget(send_btn)
+        root.add_widget(scroll)
+        root.add_widget(self.input_box)
+        root.add_widget(send_btn)
 
-        return self.layout
+        return root
 
-    def process_message(self, instance):
+    def send_message(self, instance):
 
         user_text = self.input_box.text
 
-        response = self.trinetra_brain(user_text)
+        if not user_text.strip():
+            return
 
-        self.output.text = response
+        response = answer(user_text)
 
-    def trinetra_brain(self, text):
+        self.chat.text += f"\nYou: {user_text}"
+        self.chat.text += f"\nTrinetra: {response}\n"
 
-        text = text.lower()
+        self.input_box.text = ""
 
-        if "hello" in text:
-            return "Hello, I am Trinetra."
-
-        elif "name" in text:
-            return "My name is Trinetra."
-
-        elif "time" in text:
-            from datetime import datetime
-            return datetime.now().strftime("%H:%M:%S")
-
-        else:
-            return f"You said: {text}"
 
 TrinetraApp().run()
