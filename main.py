@@ -5,6 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from datetime import datetime
+from voice import start_voice
 
 from brain import answer
 
@@ -70,6 +71,16 @@ class TrinetraApp(App):
         )
 
         self.input_box.text = ""
+
+    def voice_input(self, instance):
+
+        text = start_voice()
+
+        self.chat_label.text += f"\nYou (Voice): {text}\n"
+
+        response = answer(text)
+
+        self.chat_label.text += f"Trinetra: {response}\n"
 
     def clear_chat(self, instance):
 

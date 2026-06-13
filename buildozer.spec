@@ -9,7 +9,7 @@ source.include_exts = py,png,jpg,kv
 
 version = 0.1
 
-requirements = python3,kivy
+requirements = python3,kivy,pyjnius
 
 orientation = portrait
 
@@ -31,3 +31,6 @@ android.debug_artifact = apk
 
 log_level = 2
 warn_on_root = 0
+
+
+android.permissions = RECORD_AUDIO
