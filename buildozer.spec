@@ -1,4 +1,4 @@
-[app]
+p4a.branch = develop
 
 title = Trinetra OS
 package.name = trinetra
