@@ -33,4 +33,5 @@ log_level = 2
 warn_on_root = 0
 
 
-android.permissions = RECORD_AUDIO
+android.permissions = RECORD_AUDIO,WAKE_LOCK
+
