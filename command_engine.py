@@ -1,16 +1,15 @@
-import os
-
 def execute(command):
     command = command.lower()
 
     if "battery" in command:
-        os.system("termux-battery-status")
+        print("Battery information unavailable")
 
     elif "storage" in command:
-        os.system("df -h /storage/emulated")
+        print("Storage command not supported in APK mode")
 
     elif "time" in command:
-        os.system("date")
+        import datetime
+        print(datetime.datetime.now())
 
     else:
         print("Unknown command")
