@@ -28,7 +28,7 @@ class TrinetraApp(App):
             markup=True
         )
 
-       self.chat_label.text = startup_report()
+        self.chat_label.text = startup_report()
 
         self.chat_label.bind(
             texture_size=self.chat_label.setter("size")
