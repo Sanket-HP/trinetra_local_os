@@ -1,4 +1,24 @@
-from jnius import autoclass
+import subprocess
 
 def start_voice():
-    return "Voice recognition will be integrated here"
+
+    try:
+
+        result = subprocess.check_output(
+            [
+                "termux-speech-to-text"
+            ],
+            text=True
+        ).strip()
+
+        if not result:
+            return ""
+
+        if "ERROR" in result:
+            return ""
+
+        return result
+
+    except Exception as e:
+
+        return ""

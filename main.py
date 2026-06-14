@@ -1,13 +1,15 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from datetime import datetime
-from voice import start_voice
+from modules.startup import startup_report
 
+from voice import start_voice
 from brain import answer
+from tts import speak
+
 
 class TrinetraApp(App):
 
@@ -20,70 +22,63 @@ class TrinetraApp(App):
         )
 
         self.chat_label = Label(
-            text="🤖 Trinetra Assistant Started\n",
+            text="🤖 Trinetra Assistant Ready\n",
             size_hint_y=None,
+            text_size=(400, None),
             markup=True
         )
 
+       self.chat_label.text = startup_report()
+
         self.chat_label.bind(
-            texture_size=self.chat_label.setter('size')
+            texture_size=self.chat_label.setter("size")
         )
 
         scroll = ScrollView()
         scroll.add_widget(self.chat_label)
 
-        self.input_box = TextInput(
-            hint_text="Type your message..."
+        voice_btn = Button(
+            text="🎤 Talk to Trinetra",
+            size_hint_y=0.15
         )
 
-        send_btn = Button(text="Send")
-        clear_btn = Button(text="Clear Chat")
-        voice_btn = Button(text="🎤 Voice")
-        speak_btn = Button(text="🔊 Speak")
-
-        send_btn.bind(on_press=self.send_message)
-        clear_btn.bind(on_press=self.clear_chat)
-
-        buttons = BoxLayout(size_hint_y=0.2)
-        buttons.add_widget(send_btn)
-        buttons.add_widget(clear_btn)
+        voice_btn.bind(on_press=self.voice_input)
 
         root.add_widget(scroll)
-        root.add_widget(self.input_box)
-        root.add_widget(buttons)
+        root.add_widget(voice_btn)
 
         return root
 
-    def send_message(self, instance):
-
-        user_text = self.input_box.text.strip()
-
-        if not user_text:
-            return
-
-        response = answer(user_text)
-
-        current_time = datetime.now().strftime("%H:%M")
-
-        self.chat_label.text += (
-            f"\n[{current_time}] You: {user_text}"
-            f"\n[{current_time}] Trinetra: {response}\n"
-        )
-
-        self.input_box.text = ""
-
     def voice_input(self, instance):
 
-        text = start_voice()
+        try:
 
-        self.chat_label.text += f"\nYou (Voice): {text}\n"
+            text = start_voice()
 
-        response = answer(text)
+            if not text:
+                return
 
-        self.chat_label.text += f"Trinetra: {response}\n"
+            response = answer(text)
 
-    def clear_chat(self, instance):
+            current_time = datetime.now().strftime("%H:%M:%S")
 
-        self.chat_label.text = "🤖 Trinetra Assistant Started\n"
+            self.chat_label.text += (
+                f"\n[{current_time}] You 🎤: {text}"
+                f"\n[{current_time}] Trinetra 🤖: {response}\n"
+            )
 
-TrinetraApp().run()
+            speak(response)
+
+        except Exception as e:
+
+            current_time = datetime.now().strftime("%H:%M:%S")
+
+            self.chat_label.text += (
+                f"\n[{current_time}] Error: {str(e)}\n"
+            )
+
+            speak("Sorry, an error occurred")
+
+
+if __name__ == "__main__":
+    TrinetraApp().run()
