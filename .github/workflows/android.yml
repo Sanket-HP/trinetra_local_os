@@ -15,14 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set Python Version
-        run: |
-          python3 --version
-
       - name: Accept Android Licenses
         run: |
           mkdir -p ~/.android
-          echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > ~/.android/repositories.cfg
+          touch ~/.android/repositories.cfg
 
       - name: Build APK
         env:
