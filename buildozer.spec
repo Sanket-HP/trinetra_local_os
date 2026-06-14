@@ -9,7 +9,7 @@ source.include_exts = py,png,jpg,kv
 
 version = 0.1
 
-requirements = python3,kivy,pyjnius
+requirements = python3==3.12,kivy==2.3.0,pyjnius==1.6.1
 
 orientation = portrait
 
